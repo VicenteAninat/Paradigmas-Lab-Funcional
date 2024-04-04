@@ -1,4 +1,7 @@
 #lang racket
+(provide filtrar)
+(provide delete-duplicate)
+
 ;TDA station
 
 
@@ -94,3 +97,31 @@
     (list (get-id-station station) (get-name-station station)
           (get-type-station station) stop-time)
     ))
+
+
+;Auxiliares
+
+;Descripción: Retorna una lista de todos los elementos que sean distintos a un numero
+;Dominio: lista (list) X elem (int)
+;Recorrido: list
+;Recursión: Natural
+
+(define filtrar
+  (lambda (lista elem)
+    (if (null? lista)
+        '()
+        (if (not (equal? elem (car lista)))
+            (cons (car lista) (filtrar (cdr lista) elem))
+            (filtrar (cdr lista) elem)))))
+
+
+;Descripción: Elimina duplicados de una lista
+;Dominio: lista (list)
+;Recorrido: list
+;Recursión: Natural
+
+(define delete-duplicate
+  (lambda (lista)
+    (if (null? lista)
+        '()
+        (cons (car lista) (delete-duplicate (filtrar lista (car lista)))))))
