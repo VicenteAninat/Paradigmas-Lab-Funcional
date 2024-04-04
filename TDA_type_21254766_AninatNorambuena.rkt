@@ -1,10 +1,52 @@
 #lang racket
 ;TDA type
 
-(define isType?
-  (lambda (type-class)
-    (if (or
-         (or
-          (or (equal? type-class "r") (equal? type-class "m")) (equal? type-class "c")) (equal? type-class "t"))
-        (car (cons type-class null))
-        (display "La letra de tipo ingresada no es valida"))))
+
+;Pertenencia
+
+;Descripción:
+;Dominio:
+;Recorrido:
+;Recursión:
+
+(define (is-type? char)
+  (cond
+    ((char=? char #\c) 'c)
+    ((char=? char #\t) 't)
+    ((char=? char #\r) 'r)
+    ((char=? char #\m) 'm)))
+
+
+;Constructores
+
+;Descripción:
+;Dominio:
+;Recorrido:
+;Recursión:
+
+(define c
+  (is-type? #\c))
+
+;Descripción:
+;Dominio:
+;Recorrido:
+;Recursión:
+
+(define t
+  (is-type? #\t))
+
+;Descripción:
+;Dominio:
+;Recorrido:
+;Recursión:
+
+(define r
+  (is-type? #\r))
+
+;Descripción:
+;Dominio:
+;Recorrido:
+;Recursión:
+
+(define m
+  (is-type? #\m))
