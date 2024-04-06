@@ -1,4 +1,6 @@
 #lang racket
+(require "TDA_type_21254766_AninatNorambuena.rkt")
+(provide station)
 (provide filtrar)
 (provide delete-duplicate)
 
@@ -24,7 +26,7 @@
 ;Recorrido: id (int)
 ;Recursión: No aplica
 (define get-id-station
-  (lambda station
+  (lambda (station)
     (car station)
     ))
 
@@ -33,7 +35,7 @@
 ;Recorrido: name (string)
 ;Recursión: No aplica
 (define get-name-station
-  (lambda station
+  (lambda (station)
     (car (cdr station))
     ))
 
@@ -42,7 +44,7 @@
 ;Recorrido: type (station-type)
 ;Recursión: No aplica
 (define get-type-station
-  (lambda station
+  (lambda (station)
     (car (cddr station))
     ))
 
@@ -51,7 +53,7 @@
 ;Recorrido: stop-time (int positivo)
 ;Recursión: No aplica
 (define get-stop-time-station
-  (lambda station
+  (lambda (station)
     (car (cdddr station))
     ))
 
