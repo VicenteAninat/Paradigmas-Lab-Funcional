@@ -61,3 +61,12 @@
 (define get-station-stay-type
   (lambda train
     (car (cdr(cdddr train)))))
+
+;Descripción:
+;Dominio:
+;Recorrido:
+;Recursión:
+
+(define get-pcar-station
+  (lambda (train)
+    (car (cdr (cddddr train)))))
