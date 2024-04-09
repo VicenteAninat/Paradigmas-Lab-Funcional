@@ -1,8 +1,10 @@
 #lang racket
 (require "TDA_type_21254766_AninatNorambuena.rkt")
 (provide station)
+(provide get-name-station)
 (provide filtrar)
 (provide delete-duplicate)
+(provide member?)
 
 ;TDA station
 
@@ -127,3 +129,12 @@
     (if (null? lista)
         '()
         (cons (car lista) (delete-duplicate (filtrar lista (car lista)))))))
+
+;Descripción: Determina si un elemento está en una lista
+;Dominio: n(any) - list(any list)
+;Recorrido: bool
+;Recursión: No aplica
+
+(define member?
+  (lambda (n list)
+    (not (equal? (member n list) #f))))
