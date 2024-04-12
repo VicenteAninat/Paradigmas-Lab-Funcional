@@ -32,3 +32,14 @@
 
 (define l0 (line 0 "Línea 0" "UIC 60 ASCE"))
 (define l1 (line 1 "Línea 1" "100 R.E." s0 s1 s2 s3 s5 s7 s8 s9))
+
+(line-length l1)
+(line-length l0)
+
+;(line-section-length l1 "USACH" "Los Héroes")
+(line-cost l1)
+
+(define l2 (line-add-section l0 s0))
+(define l3 (line-add-section l2 s1))
+(define l4 (line-add-section l3 s2))
+(define l5 (line-add-section l4 s3))
