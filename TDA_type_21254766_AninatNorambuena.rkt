@@ -1,15 +1,24 @@
 #lang racket
+(provide c)
+(provide t)
+(provide r)
+(provide m)
+
 ;TDA type
 
 
 ;Pertenencia
 
+(define c "combinacion")
+(define t "terminal")
+(define r "regular")
+(define m "mantencion")
+
 ;Descripción:
 ;Dominio:
 ;Recorrido:
 ;Recursión:
-
-(define (is-type? char)
+#|(define (is-type? char)
   (cond
     ((char=? char #\c) 'c)
     ((char=? char #\t) 't)
@@ -23,7 +32,6 @@
 ;Dominio:
 ;Recorrido:
 ;Recursión:
-
 (define c
   (is-type? #\c))
 
@@ -31,7 +39,6 @@
 ;Dominio:
 ;Recorrido:
 ;Recursión:
-
 (define t
   (is-type? #\t))
 
@@ -39,7 +46,6 @@
 ;Dominio:
 ;Recorrido:
 ;Recursión:
-
 (define r
   (is-type? #\r))
 
@@ -47,6 +53,5 @@
 ;Dominio:
 ;Recorrido:
 ;Recursión:
-
 (define m
-  (is-type? #\m))
+  (is-type? #\m))|#
