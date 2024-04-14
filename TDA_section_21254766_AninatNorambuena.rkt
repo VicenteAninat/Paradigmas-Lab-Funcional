@@ -2,7 +2,10 @@
 (require "TDA_type_21254766_AninatNorambuena.rkt")
 (require "TDA_station_21254766_AninatNorambuena.rkt")
 (provide section)
+(provide get-point1-section)
+(provide get-point2-section)
 (provide get-distance-section)
+(provide get-cost-section)
 
 ;TDA section
 
