@@ -9,6 +9,7 @@
 (provide line-section-length)
 (provide line-cost)
 (provide line-add-section)
+;(provide line?)
 
 ;TDA line
 
@@ -98,8 +99,8 @@
     (if (equal? lista-section null)
         (cons section null)
         (if (equal? (car lista-section) section)
-            (lista-section)
-            (cons (car lista-section) (cons (añadir-section (cdr lista-section) section) null))))))
+            (cons lista-section null)
+            (cons (car lista-section) (añadir-section (cdr lista-section) section))))))
 
 ;Descripción: Función que permite añadir tramos a una línea
 ;Dominio: line (line) X section (section)
@@ -115,15 +116,62 @@
 
 ;-----------------------------------------------------------------------------------------------------
 ;EN DESARROLLO
-;Descripción: Función que permite añadir tramos a una línea
-;Dominio: line (line) X section (section)
-;Recorrido: line
-;Recursión: Natural
-(define verificar-sections
+;Descripción: 
+;Dominio: 
+;Recorrido: 
+;Recursión:
+#|(define station?
+  (lambda (station)
+    (and
+     (integer? (get-id-station station))
+     (string? (get-name-station station))
+     (integer? (get-stop-time-station station)))))|#
+  
+
+;Descripción: 
+;Dominio: 
+;Recorrido: 
+;Recursión: 
+#|(define section?
   (lambda (lista-sections)
-    (if (lista-sections)
-;Si la lista es nula dar true
-        ;sino proguntar por el primer elemento, si es section pasar al siguiente, sino falso
+    (if (equal? lista-sections null)
+        #f
+        (if (and
+             (station? (get-point1-section (car lista-sections)))
+             (station? (get-point2-section (car lista-sections)))
+             (integer? (get-distance-section (car lista-sections)))
+             (integer? (get-cost-section (car lista-sections))))
+            (if (not (equal? (cdr lista-sections) null))
+                (section? (cdr lista-sections))
+                #t)
+            #f))))|#
+
+#|(define section?
+  (lambda (lista-sections)
+    (if (equal? lista-sections null)
+        #f
+        (if (and
+             (station? (get-point1-section (car lista-sections)))
+             (station? (get-point2-section (car lista-sections)))
+             (integer? (get-distance-section (car lista-sections)))
+             (integer? (get-cost-section (car lista-sections))))
+            (if (equal? (cdr lista-sections) null)
+                #t
+                (section? (cdr lista-sections)))
+            #f))))|#
+
+#|(define section?
+  (lambda (lista-sections)
+    (cond
+      ((equal? lista-sections null) #f)
+      ((and (station? (get-point1-section (car lista-sections)))
+            (station? (get-point2-section (car lista-sections)))
+            (integer? (get-distance-section (car lista-sections)))
+            (integer? (get-cost-section (car lista-sections)))) (if (equal? (cdr lista-sections) null)
+                                                                    #t
+                                                                    (section? (cdr lista-sections))))
+      (else #f))))|#
+      
        
 ;Descripción: Función que permite determinar si un elemento
 ;cumple con las restricciones señaladas en apartados
@@ -131,15 +179,13 @@
 ;poder conformar una línea.
 ;Dominio: line
 ;Recorrido: bool
-;Recursión:
-(define line?
+;Recursión: 
+#|(define line?
   (lambda (line)
-    (cond
-      ((not (integer? (get-id-line line))) #f)
-      ((not (string? (get-name-line line))) #f)
-      ((not (string? (get-rail-type-line line))) #f)
-      ((verificar-sections (get-section-line line)) #t))
-    ))
+    (and (integer? (get-id-line line))
+         (string? (get-name-line line))
+         (string? (get-rail-type-line line))
+         (section? (get-section-line line)))))|#
 
 ;Auxiliares
 
