@@ -5,11 +5,17 @@
 (provide line)
 (provide get-section-line)
 (provide get-id-line)
+(provide get-name-line)
+(provide get-rail-type-line)
 (provide line-length)
 (provide line-section-length)
 (provide line-cost)
 (provide line-add-section)
-;(provide line?)
+(provide line-section-cost)
+(provide line?)
+
+(provide lista-section?)
+
 
 ;TDA line
 
@@ -120,33 +126,15 @@
 ;Dominio: 
 ;Recorrido: 
 ;Recursión:
-#|(define station?
+(define station?
   (lambda (station)
     (and
      (integer? (get-id-station station))
      (string? (get-name-station station))
-     (integer? (get-stop-time-station station)))))|#
+     (integer? (get-stop-time-station station)))))
   
 
-;Descripción: 
-;Dominio: 
-;Recorrido: 
-;Recursión: 
-#|(define section?
-  (lambda (lista-sections)
-    (if (equal? lista-sections null)
-        #f
-        (if (and
-             (station? (get-point1-section (car lista-sections)))
-             (station? (get-point2-section (car lista-sections)))
-             (integer? (get-distance-section (car lista-sections)))
-             (integer? (get-cost-section (car lista-sections))))
-            (if (not (equal? (cdr lista-sections) null))
-                (section? (cdr lista-sections))
-                #t)
-            #f))))|#
-
-#|(define section?
+(define lista-section?
   (lambda (lista-sections)
     (if (equal? lista-sections null)
         #f
@@ -157,10 +145,10 @@
              (integer? (get-cost-section (car lista-sections))))
             (if (equal? (cdr lista-sections) null)
                 #t
-                (section? (cdr lista-sections)))
-            #f))))|#
+                (lista-section? (cdr lista-sections)))
+            #f))))
 
-#|(define section?
+#|(define lista-section?
   (lambda (lista-sections)
     (cond
       ((equal? lista-sections null) #f)
@@ -180,13 +168,13 @@
 ;Dominio: line
 ;Recorrido: bool
 ;Recursión: 
-#|(define line?
+(define line?
   (lambda (line)
     (and (integer? (get-id-line line))
          (string? (get-name-line line))
          (string? (get-rail-type-line line))
-         (section? (get-section-line line)))))|#
-
+         (lista-section? (get-section-line line)))))
+;-----------------------------------------------------------------------------------------------------
 ;Auxiliares
 
 ;Descripción: Función que permite determinar el largo total
@@ -205,8 +193,8 @@
 ;Recorrido: int
 ;Recursión: No aplica
 (define sacar-distancia
-  (lambda lista-sections
-    (apply + lista-sections)))
+  (lambda (lista-sections)
+    (apply + (map get-distance-section lista-sections))))
 
 ;Descripción: Función que retorna lo que hay en medio de dos elementos de una lista
 ;Dominio: Lista X Any X Any
@@ -230,33 +218,33 @@
 ;Dominio: station*
 ;Recorrido: station
 ;Recursión: No aplica
-(define encontrar-estacion-1
+(define encontrar-estacion
   (lambda (lista-estaciones nombre)
-    (car (map comprobar-nombre lista-estaciones nombre))))
+    (if (equal? lista-estaciones null)
+        null
+        (if (equal? (get-name-station (car lista-estaciones)) nombre)
+            (car lista-estaciones)
+            (encontrar-estacion (cdr lista-estaciones) nombre)))))
 
 ;Descripción: Función que retorna una section o vacio en base a su coincidencia con una estacion
 ;Dominio: 
 ;Recorrido: 
 ;Recursión: No aplica
 (define comprobar-point1
-  (lambda (seccion estacion)
-    (if (equal? (get-point1-section seccion) estacion)
-        (seccion)
-        '())))
+  (lambda (lista-seccion estacion)
+    (if (equal? lista-seccion  null)
+        null
+        (if (equal? (get-point1-section (car lista-seccion)) estacion)
+            (car lista-seccion)
+            (comprobar-point1 (cdr lista-seccion) estacion)))))
 
 (define comprobar-point2
-  (lambda (seccion estacion)
-    (if (equal? (get-point2-section seccion) estacion)
-        (seccion)
-        '())))
-
-;Descripción: Función que encuentra una seccion de una lista de secciones
-;Dominio: station*
-;Recorrido: station
-;Recursión: No aplica
-(define encontrar-estacion-2
-  (lambda (lista-estaciones nombre)
-    (car (map comprobar-nombre lista-estaciones nombre))))
+  (lambda (lista-seccion estacion)
+    (if (equal? lista-seccion  null)
+        null
+        (if (equal? (get-point2-section (car lista-seccion)) estacion)
+            (car lista-seccion)
+            (comprobar-point2 (cdr lista-seccion) estacion)))))
 
 ;Descripción: Función que permite determinar el trayecto entre una estación origen y una final.
 ;Dominio:
@@ -265,10 +253,10 @@
 (define line-section-length
   (lambda (line nombre1 nombre2)
     (sacar-distancia (cortar-lista (get-section-line line)
-                                   (map comprobar-point1 (get-section-line line)
-                                        (encontrar-estacion-1 (map get-point1-section (get-section-line line)) nombre1))
-                                   (map comprobar-point2 (get-section-line line)
-                                        (encontrar-estacion-1 (map get-point2-section (get-section-line line)) nombre2))))))
+                                   (comprobar-point1 (get-section-line line)
+                                        (encontrar-estacion (map get-point1-section (get-section-line line)) nombre1))
+                                   (comprobar-point2 (get-section-line line)
+                                        (encontrar-estacion (map get-point2-section (get-section-line line)) nombre2))))))
 
 ;-----------------------------------------------------------------------------------------------------
 
@@ -294,11 +282,25 @@
 ;-----------------------------------------------------------------------------------------------------
 ;EN DESARROLLO
 
+(define sacar-costo
+  (lambda (lista-section)
+    (define sacar-costo-interno
+      (lambda (lista-section acum)
+        (if (equal? lista-section null)
+            acum
+            (sacar-costo-interno (cdr lista-section) (+ acum (get-cost-section (car lista-section)))))))
+    (sacar-costo-interno lista-section 0)))
 
 ;Descripción: Función que permite determinar el costo de un trayecto entre una estación origen y una final.
 ;Dominio: line
 ;Recorrido: int
 ;Recursión: De cola
-    
+(define line-section-cost
+  (lambda (line nombre1 nombre2)
+    (sacar-costo (cortar-lista (get-section-line line)
+                                   (comprobar-point1 (get-section-line line)
+                                        (encontrar-estacion (map get-point1-section (get-section-line line)) nombre1))
+                                   (comprobar-point2 (get-section-line line)
+                                        (encontrar-estacion (map get-point2-section (get-section-line line)) nombre2))))))
 
 ;-----------------------------------------------------------------------------------------------------
