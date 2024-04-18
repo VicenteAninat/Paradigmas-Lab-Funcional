@@ -1,7 +1,10 @@
 #lang racket
 (require "TDA_type_21254766_AninatNorambuena.rkt")
 (provide station)
+(provide get-id-station)
 (provide get-name-station)
+(provide get-type-station)
+(provide get-stop-time-station)
 (provide filtrar)
 (provide delete-duplicate)
 (provide member?)
@@ -11,8 +14,10 @@
 
 ;Constructor
 
-;Descripción: Función constructora de una estación de metro
-;Dominio: id (int) X name (string) X type (station-type) X stop-time (int positivo)
+;Descripción: Función constructora de una estación de metro, el tipo puede
+;ser r (abordar y dejar pasajeros), t (terminal), c (combinación)
+;o m () mantención
+;Dominio: id (int) X name (String)  X type (station-type) X stop-time (int positivo)
 ;Recorrido: station
 ;Recursión: No aplica
 (define station
@@ -109,7 +114,6 @@
 ;Dominio: lista (list) X elem (int)
 ;Recorrido: list
 ;Recursión: Natural
-
 (define filtrar
   (lambda (lista elem)
     (if (null? lista)
@@ -123,7 +127,6 @@
 ;Dominio: lista (list)
 ;Recorrido: list
 ;Recursión: Natural
-
 (define delete-duplicate
   (lambda (lista)
     (if (null? lista)
@@ -134,7 +137,6 @@
 ;Dominio: n(any) - list(any list)
 ;Recorrido: bool
 ;Recursión: No aplica
-
 (define member?
   (lambda (n list)
     (not (equal? (member n list) #f))))

@@ -1,4 +1,8 @@
 #lang racket
+(require "TDA_car-type_21254766_AninatNorambuena.rkt")
+(provide pcar)
+(provide get-type-pcar)
+(provide comprobar-pcar)
 
 ;TDA pcar
 
@@ -22,7 +26,7 @@
 ;Recorrido: int
 ;Recursión: No aplica
 (define get-id-pcar
-  (lambda pcar
+  (lambda (pcar)
     (car pcar)))
 
 ;Descripción: Función que extrae la capacidad de un pcar
@@ -30,7 +34,7 @@
 ;Recorrido: int
 ;Recursión: No aplica
 (define get-capacity-pcar
-  (lambda pcar
+  (lambda (pcar)
     (car (cdr pcar))))
 
 ;Descripción: Función que extrae el modelo de un pcar
@@ -38,7 +42,7 @@
 ;Recorrido: string
 ;Recursión: No aplica
 (define get-model-pcar
-  (lambda pcar
+  (lambda (pcar)
     (car (cddr pcar))))
 
 ;Descripción: Función que extrae el tipo de carro de un pcar
@@ -46,7 +50,7 @@
 ;Recorrido: car-type
 ;Recursión: No aplica
 (define get-type-pcar
-  (lambda pcar
+  (lambda (pcar)
     (car (cdddr pcar))))
 
 
@@ -87,3 +91,16 @@
   (lambda (pcar type)
     (list (get-id-pcar pcar) (get-capacity-pcar pcar)
           (get-model-pcar pcar) type)))
+
+;-----------------------------------------------------------------------------------------------------
+;Descripción: 
+;Dominio: 
+;Recorrido: 
+;Recursión: 
+(define comprobar-pcar
+  (lambda (lista-pcar)
+    (if (equal? lista-pcar null)
+        #t
+        (if (equal? (get-type-pcar (car lista-pcar)) "central")
+            (comprobar-pcar (cdr lista-pcar))
+            #f))))
