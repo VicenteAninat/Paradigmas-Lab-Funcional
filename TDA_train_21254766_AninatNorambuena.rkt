@@ -3,6 +3,7 @@
 (provide train)
 (provide train-add-car)
 (provide train-remove-car)
+(provide train?)
 
 ;TDA train
 
@@ -154,8 +155,10 @@
 (define centro-valido-tren
   (lambda (lista-tren)
     (cond
-      [(< (length lista-tren) 3) pasan cosas]
-      []
+      [(equal? lista-tren null) #t]
+      [(equal? (get-type-pcar (car lista-tren)) "central")
+       (centro-valido-tren (cdr lista-tren))]
+      [else #f])))
 
 (define mismo-modelo
   (lambda (lista-pcar)
@@ -185,10 +188,12 @@
   (lambda (train)
     (cond
       [(equal? (get-pcar-train train) null) #f]
+      [(equal? (length (get-pcar-train train)) 1) #f]
+      [(equal? (length (get-pcar-train train)) 2) (extremos-validos-tren (get-pcar-train train))]
       [(and
         (mismo-modelo (get-pcar-train train))
         (extremos-validos-tren (get-pcar-train train))
-        (centro-valido-tren (get-pcar-train train))) #t]
+        (centro-valido-tren (reverse (cdr(reverse (cdr (get-pcar-train train))))))) #t]
       [else #f])))
 
 ;-----------------------------------------------------------------------------------------------------
