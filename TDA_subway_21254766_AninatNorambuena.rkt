@@ -1,4 +1,9 @@
 #lang racket
+(require "TDA_station_21254766_AninatNorambuena.rkt")
+(provide subway)
+(provide subway-add-train)
+(provide subway-add-line)
+(provide subway-add-driver)
 
 ;TDA subway
 
@@ -11,27 +16,52 @@
 ;Recursión: No aplica
 (define subway
   (lambda (id nombre)
-    (list id nombre)))
+    (list id nombre '() '() '())))
 
 
 ;Selectores
+
+(define get-id-subway
+  (lambda (subway)
+    (car subway)))
+
+(define get-nombre-subway
+  (lambda (subway)
+    (car (cdr subway))))
+
+(define get-train-subway
+  (lambda (subway)
+    (car (cddr subway))))
+
+(define get-line-subway
+  (lambda (subway)
+    (car (cdddr subway))))
+
+(define get-driver-subway
+  (lambda (subway)
+    (car (cddddr subway))))
 
 ;Modificadores
 
 ;-----------------------------------------------------------------------------------------------------
 ;EN DESARROLLO
-;Descripción: Función que permite añadir trenes a una red de metro.
-;Dominio: sub (subway) X train* (pueden ser 1 o más trenes)
-;Recorrido: subway
-;Recursión:
+(define añadir-train
+  (lambda (lista-train train)
+    (if (equal? lista-train null)
+        (cons train null)
+        (if (equal? (car lista-train) train)
+            (cons lista-train null)
+            (cons (car lista-train) (añadir-train (cdr lista-train) train))))))
 
-;-----------------------------------------------------------------------------------------------------
-;-----------------------------------------------------------------------------------------------------
-;EN DESARROLLO
 ;Descripción: Función que permite añadir trenes a una red de metro.
 ;Dominio: sub (subway) X train* (pueden ser 1 o más trenes)
 ;Recorrido: subway
 ;Recursión:
+(define subway-add-train
+  (lambda (subway . train)
+    (list (get-id-subway subway) (get-nombre-subway subway)
+          (añadir-train (get-train-subway subway) train)
+          (get-line-subway subway) (get-driver-subway subway))))
 
 ;-----------------------------------------------------------------------------------------------------
 ;-----------------------------------------------------------------------------------------------------
@@ -40,6 +70,12 @@
 ;Dominio: sub (subway) X line* (pueden ser 1 o más líneas)
 ;Recorrido: subway
 ;Recursión:
+(define subway-add-line
+  (lambda (subway . line)
+    (list (get-id-subway subway) (get-nombre-subway subway)
+          (get-train-subway subway)
+          (delete-duplicate (append (get-line-subway subway) line))
+          (get-driver-subway subway))))
 
 ;-----------------------------------------------------------------------------------------------------
 ;-----------------------------------------------------------------------------------------------------
@@ -48,6 +84,12 @@
 ;Dominio: sub (subway) X driver* (pueden ser 1 o más conductores)
 ;Recorrido: subway
 ;Recursión:
+(define subway-add-driver
+  (lambda (subway . driver)
+    (list (get-id-subway subway) (get-nombre-subway subway)
+          (get-train-subway subway)
+          (get-line-subway subway)
+          (delete-duplicate (append (get-driver-subway subway) driver)))))
 
 ;-----------------------------------------------------------------------------------------------------
 ;-----------------------------------------------------------------------------------------------------
