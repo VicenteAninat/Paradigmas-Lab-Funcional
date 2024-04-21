@@ -195,3 +195,30 @@
 
 ;Agregando drivers
 (define sw0c (subway-add-driver sw0b d0 d1 d2 d3))
+
+#|
+;Expresado subway como string
+(subway->string sw0c)
+
+;Aumentando los costos de las estaciones en un 30%
+(define sw0d (subway-rise-section-cost (lambda (c) (* c 1.3))))
+
+;Cambiando el tiempo de parada de algunas estaciones
+(define sw0e (subway-set-station-stoptime sw0d "Los Heroes" 180))
+(define sw0f (subway-set-station-stoptime sw0e "San Pablo" 50))
+
+;Asignando trenes a líneas
+(define sw0g (subway-assign-train-to-line sw0f 0 1))
+(define sw0h (subway-assign-train-to-line sw0g 2 2))
+
+;Asignando conductores a trenes
+(define sw0i (subway-assign-driver-to-train sw0h 1 0 "11:00:00" "San Pablo" "Los Hérores"))
+(define sw0j (subway-assign-driver-to-train sw0i 2 2 "12:00:00" "El Llano" "Toesca"))
+
+;preguntando dónde está el tren
+(where-is-train sw0j 0 "11:12:00")  ;Debería estar mas cerca de Las Rejas. Hasta esta hora el tren debería haber recorrido 12km (asumiendo esta unidad), sumando los tiempos de parada en las estaciones
+
+
+;produciendo la ruta que sigue el tren
+(subway-train-path sw0j 0 "11:30:00")
+|#
