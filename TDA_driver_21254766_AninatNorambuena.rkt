@@ -1,4 +1,5 @@
 #lang racket
+(provide driver)
 
 ;TDA driver
 

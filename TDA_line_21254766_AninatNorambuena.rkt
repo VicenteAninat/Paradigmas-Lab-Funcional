@@ -129,8 +129,8 @@
 
 (define llegada-universal
   (lambda (lista-section)
-    null
-    ))
+    null))
+    
 
 ;Descripción: Función que permite determinar si un elemento
 ;cumple con las restricciones señaladas en apartados

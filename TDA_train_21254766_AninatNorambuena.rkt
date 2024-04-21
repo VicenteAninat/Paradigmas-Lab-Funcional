@@ -4,6 +4,7 @@
 (provide train-add-car)
 (provide train-remove-car)
 (provide train?)
+(provide train-capacity)
 
 ;TDA train
 
@@ -183,7 +184,7 @@
 ;terminales (t) en los extremos y centrales (c) en medio del convoy.
 ;Dominio: train
 ;Recorrido: boolean
-;Recursión:
+;Recursión: De cola / Natural
 (define train?
   (lambda (train)
     (cond
@@ -203,5 +204,13 @@
 ;Dominio: train
 ;Recorrido: int positivo
 ;Recursión:
+(define train-capacity
+  (lambda (train)
+    (define train-capacity-interno
+      (lambda (lista-pcar acum)
+        (if (equal? lista-pcar null)
+            acum
+            (train-capacity-interno (cdr lista-pcar) (+ acum (get-capacity-pcar (car lista-pcar)))))))
+    (train-capacity-interno (get-pcar-train train) 0)))
 
 ;-----------------------------------------------------------------------------------------------------

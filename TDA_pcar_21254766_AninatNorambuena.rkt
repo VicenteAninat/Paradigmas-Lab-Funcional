@@ -2,6 +2,8 @@
 (require "TDA_car-type_21254766_AninatNorambuena.rkt")
 (provide pcar)
 (provide get-type-pcar)
+(provide get-model-pcar)
+(provide get-capacity-pcar)
 (provide comprobar-pcar)
 
 ;TDA pcar
