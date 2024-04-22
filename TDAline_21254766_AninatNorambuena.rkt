@@ -1,7 +1,7 @@
 #lang racket
-(require "TDA_type_21254766_AninatNorambuena.rkt")
-(require "TDA_station_21254766_AninatNorambuena.rkt")
-(require "TDA_section_21254766_AninatNorambuena.rkt")
+(require "TDAtype_21254766_AninatNorambuena.rkt")
+(require "TDAstation_21254766_AninatNorambuena.rkt")
+(require "TDAsection_21254766_AninatNorambuena.rkt")
 (provide line)
 (provide get-section-line)
 (provide get-id-line)
