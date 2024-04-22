@@ -129,7 +129,9 @@
 
 (define llegada-universal
   (lambda (lista-section)
-    null))
+    (if (equal? lista-section null)
+        #t
+        (llegada-universal (cdr lista-section)))))
     
 
 ;Descripción: Función que permite determinar si un elemento
@@ -143,7 +145,7 @@
   (lambda (line)
     (cond
       [(equal? (get-section-line line) null) #f]
-      [(not (equal? (get-section-line line) null)) #t];Place holder
+      [(not (equal? (get-section-line line) null)) (llegada-universal (get-section-line line))]
       [(equal? (get-point1-section (car (get-section-line line)))
                (get-point2-section (car (reverse (get-section-line line)))))
        (llegada-universal-circular (get-section-line line))]
